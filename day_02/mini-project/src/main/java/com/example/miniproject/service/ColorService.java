@@ -21,7 +21,7 @@ public class ColorService {
         return "red";
     }
 
-    private String randomRgbColor() {
+    public String randomRgbColor() {
         Random rd = new Random();
         int r = rd.nextInt(256);
         int g = rd.nextInt(256);
