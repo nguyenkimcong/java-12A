@@ -31,11 +31,11 @@ public class CourseRepository {
 
         for (int i = 1; i < 21; i++) {
             // Random topic
-            List<String> rdTopcis = new ArrayList<>();
+            List<String> rdTopics = new ArrayList<>();
             for (int j = 0; j < 3; j++) {
                 String rdTopic = topics.get(rd.nextInt(topics.size()));
-                if(!rdTopcis.contains(rdTopic)) {
-                    rdTopcis.add(rdTopic);
+                if(!rdTopics.contains(rdTopic)) {
+                    rdTopics.add(rdTopic);
                 }
             }
 
@@ -48,7 +48,7 @@ public class CourseRepository {
                     faker.funnyName().name(),
                     faker.lorem().sentence(20),
                     rd.nextInt(2) == 1 ? "online" : "onlab",
-                    rdTopcis,
+                    rdTopics,
                     faker.avatar().image(),
                     rdUser.getId()
             );
