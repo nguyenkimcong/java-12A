@@ -7,10 +7,11 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
-    public List<Todo> todos;
+    private List<Todo> todos;
 
     public TodoService() {
         todos = new ArrayList<>();
@@ -20,14 +21,20 @@ public class TodoService {
     }
 
     public List<Todo> getTodos() {
+        return todos;
     }
 
     public Todo createTodo(CreateTodoRequest request) {
+        return null;
     }
 
     public Todo updateTodo(int id, UpdateTodoRequest request) {
+        return null;
     }
 
-    public void deleteTodo(int id) {
+    public void deleteTodo(int id) {}
+
+    private Optional<Todo> findById(int id) {
+        return todos.stream().filter(todo -> todo.getId() == id).findFirst();
     }
 }
