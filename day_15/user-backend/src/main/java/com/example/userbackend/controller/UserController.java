@@ -7,8 +7,10 @@ import com.example.userbackend.model.request.UpdateUserRequest;
 import com.example.userbackend.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -74,6 +76,47 @@ public class UserController {
     public ResponseEntity<?> updatePassword(@PathVariable int id) {
         String password = userService.forgotPassword(id);
         return ResponseEntity.ok(password);
+    }
+
+    // Upload ảnh
+    // c1 : Lưu trực tiếp vào database
+    // c2 : Lưu ảnh vào 1 folder ở server -> lưu path image vào database
+    // Trong trường hợp k có database : Lưu ảnh vào 1 folder ở server
+    // -> sử dụng userId, fileId để tìm kiếm trong folder
+
+    // uploads
+    // 1, 2, 3 : folder tương ứng với userId
+    // trong folder userId là các ảnh mà user đó upload
+
+
+    // Upload file
+    @PostMapping("/users/{id}/files")
+    public ResponseEntity<?> uploadFile(@PathVariable int id, @ModelAttribute("file") MultipartFile file) {
+        String filePath = userService.uploadFile(id, file);
+        return ResponseEntity.ok(filePath);
+    }
+
+    // Xem ảnh -> byte[]
+    @GetMapping("/users/{id}/files/{fileId}")
+    public ResponseEntity<?> readFile(@PathVariable int id, @PathVariable String fileId) {
+        byte[] bytes = userService.readFile(id, fileId);
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_JPEG)
+                .body(bytes);
+    }
+
+    // Lấy danh sách ảnh
+    @GetMapping("/users/{id}/files")
+    public ResponseEntity<?> getFiles(@PathVariable int id) {
+        List<String> files = userService.getFiles(id);
+        return ResponseEntity.ok(files); // 200
+    }
+
+    // Xóa ảnh
+    @DeleteMapping("/users/{id}/files/{fileId}")
+    public ResponseEntity<?> deleteFile(@PathVariable int id, @PathVariable String fileId) {
+        userService.deleteFile(id, fileId);
+        return ResponseEntity.noContent().build(); // 204
     }
 }
 

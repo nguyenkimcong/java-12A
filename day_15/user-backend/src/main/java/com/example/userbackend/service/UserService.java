@@ -10,7 +10,9 @@ import com.example.userbackend.model.request.UpdatePasswordRequest;
 import com.example.userbackend.model.request.UpdateUserRequest;
 import com.example.userbackend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Random;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final FileService fileService;
 
     // Lấy danh sách user ở dạng DTO
     public List<UserDto> getUsers() {
@@ -125,5 +128,24 @@ public class UserService {
 
         // Trả về thông tin password mới
         return newPassword;
+    }
+
+    public String uploadFile(int id, MultipartFile file) {
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found user with id = " + id);
+        });
+
+        return fileService.uploadFile(id, file);
+    }
+
+    public byte[] readFile(int id, String fileId) {
+        return null;
+    }
+
+    public List<String> getFiles(int id) {
+        return null;
+    }
+
+    public void deleteFile(int id, String fileId) {
     }
 }
