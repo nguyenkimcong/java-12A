@@ -139,13 +139,26 @@ public class UserService {
     }
 
     public byte[] readFile(int id, String fileId) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found user with id = " + id);
+        });
+
+        return fileService.readFile(id, fileId);
     }
 
     public List<String> getFiles(int id) {
-        return null;
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found user with id = " + id);
+        });
+
+        return fileService.getFiles(id);
     }
 
     public void deleteFile(int id, String fileId) {
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found user with id = " + id);
+        });
+
+        fileService.deleteFile(id, fileId);
     }
 }

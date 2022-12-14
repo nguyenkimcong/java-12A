@@ -106,6 +106,9 @@ public class UserController {
     }
 
     // Lấy danh sách ảnh
+    // /api/v1/users/1/files/1671023315
+    // /api/v1/users/1/files/1671023315
+    // /api/v1/users/1/files/1671023315
     @GetMapping("/users/{id}/files")
     public ResponseEntity<?> getFiles(@PathVariable int id) {
         List<String> files = userService.getFiles(id);
