@@ -2,6 +2,7 @@ package com.example.userbackend.controller;
 
 import com.example.userbackend.model.dto.UserDto;
 import com.example.userbackend.model.request.CreateUserRequest;
+import com.example.userbackend.model.request.UpdateAvatarRequest;
 import com.example.userbackend.model.request.UpdatePasswordRequest;
 import com.example.userbackend.model.request.UpdateUserRequest;
 import com.example.userbackend.service.UserService;
@@ -121,5 +122,13 @@ public class UserController {
         userService.deleteFile(id, fileId);
         return ResponseEntity.noContent().build(); // 204
     }
+
+    // Thay đổi avatar của user
+    @PutMapping("/users/{id}/update-avatar")
+    public ResponseEntity<?> updateAvatar(@PathVariable int id, @RequestBody UpdateAvatarRequest request) {
+        userService.updateAvatar(id, request);
+        return ResponseEntity.noContent().build(); // 204
+    }
+
 }
 

@@ -12,6 +12,11 @@ if (!userId) {
 const imageContainerEl = document.querySelector(".image-container");
 const btnChoseImage = document.getElementById("btn-chose-image");
 const btnDeleteImage = document.getElementById("btn-delete-image");
+const avatarPreviewEl = document.getElementById("avatar-preview");
+
+const modalImageEl = new bootstrap.Modal(document.getElementById('modal-image'), {
+    keyboard: false
+  })
 
 // Quản lý ảnh
 let images = [];
@@ -36,7 +41,7 @@ const renderImages = arr => {
     arr.forEach(i => {
         html += `
             <div class="image-item" onclick="choseImage(this)">
-                <img src="http://localhost:8080${i}" alt="ảnh">
+                <img src="http://localhost:8080${i}" alt="ảnh" data-url=${i}>
             </div>
         `
     });
@@ -99,6 +104,32 @@ btnDeleteImage.addEventListener("click", async () => {
         console.log(error)
     }
 })
+
+// Cập nhật avatar
+btnChoseImage.addEventListener("click", async () => {
+    try {
+        const imageActiveEl = document.querySelector(".image-active img");
+        if (!imageActiveEl) return;
+
+        // /api/v1/users/1/files/1671191936
+        const url = imageActiveEl.dataset.url;
+        console.log(url)
+
+        // Gọi API
+        await axios.put(`${API_URL}/users/${userId}/update-avatar`, { avatar: url })
+
+        // Cập nhật avatar trên UI
+        avatarPreviewEl.src = `http://localhost:8080${url}`;
+
+        // Đóng modal
+        modalImageEl.hide();
+    } catch (error) {
+
+    }
+})
+
+// Upload ảnh
+
 
 
 getImages();

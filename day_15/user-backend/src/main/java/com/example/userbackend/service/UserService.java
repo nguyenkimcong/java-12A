@@ -6,6 +6,7 @@ import com.example.userbackend.model.User;
 import com.example.userbackend.model.dto.UserDto;
 import com.example.userbackend.model.mapper.UserMapper;
 import com.example.userbackend.model.request.CreateUserRequest;
+import com.example.userbackend.model.request.UpdateAvatarRequest;
 import com.example.userbackend.model.request.UpdatePasswordRequest;
 import com.example.userbackend.model.request.UpdateUserRequest;
 import com.example.userbackend.repository.UserRepository;
@@ -160,5 +161,13 @@ public class UserService {
         });
 
         fileService.deleteFile(id, fileId);
+    }
+
+    public void updateAvatar(int id, UpdateAvatarRequest request) {
+        User user = userRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Not found user with id = " + id);
+        });
+
+        user.setAvatar(request.getAvatar());
     }
 }
