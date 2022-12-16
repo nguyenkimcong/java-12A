@@ -13,6 +13,7 @@ const imageContainerEl = document.querySelector(".image-container");
 const btnChoseImage = document.getElementById("btn-chose-image");
 const btnDeleteImage = document.getElementById("btn-delete-image");
 const avatarPreviewEl = document.getElementById("avatar-preview");
+const avatarEl = document.getElementById("avatar");
 
 const modalImageEl = new bootstrap.Modal(document.getElementById('modal-image'), {
     keyboard: false
@@ -129,6 +130,27 @@ btnChoseImage.addEventListener("click", async () => {
 })
 
 // Upload ảnh
+avatarEl.addEventListener("change", async (e) => {
+    try {
+        // Lấy ra file upload
+        const file = e.target.files[0];
+        console.log(file);
+
+        // Tạo đối tượng form data
+        const formData = new FormData();
+        formData.append("file", file);
+
+        // Gọi API
+        const res = await axios.post(`${API_URL}/users/${userId}/files`, formData);
+
+        // Cập nhật UI
+        images.unshift(res.data);
+        renderPaginationAndRenderImages(images);
+
+    } catch (error) {
+        console.log(error)
+    }
+})
 
 
 
