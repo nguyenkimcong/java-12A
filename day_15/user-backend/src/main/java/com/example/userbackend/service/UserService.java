@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepository userRepository;
     private final FileService fileService;
+    private final MailService mailService;
 
     // Lấy danh sách user ở dạng DTO
     public List<UserDto> getUsers() {
@@ -126,6 +127,10 @@ public class UserService {
 
         // Lấy thông tin của user và đặt lại password mới cho user
         user.setPassword(newPassword);
+
+        // Gửi email
+        mailService.sendMail(user.getEmail(), "Quên mật khẩu", "Mật khẩu mới : " + newPassword);
+
 
         // Trả về thông tin password mới
         return newPassword;
