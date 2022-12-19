@@ -1,5 +1,6 @@
 import React from 'react';
 import './App.css';
+import Counter from './components/counter/Counter';
 import Menu from './components/menu/Menu';
 
 function App() {
@@ -27,6 +28,8 @@ function App() {
       </div>
 
       <Menu menus={menus} name={"Nguyễn Văn A"}/>
+
+      <Counter />
     </>
 
   );
