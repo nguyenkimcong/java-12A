@@ -1,6 +1,8 @@
 import React from 'react';
 import './App.css';
+import Content from './components/content/Content';
 import Counter from './components/counter/Counter';
+import List from './components/list/List';
 import Menu from './components/menu/Menu';
 
 function App() {
@@ -30,6 +32,14 @@ function App() {
       <Menu menus={menus} name={"Nguyễn Văn A"}/>
 
       <Counter />
+
+      <hr />
+
+      <Content />
+
+      <hr />
+
+      <List />
     </>
 
   );
