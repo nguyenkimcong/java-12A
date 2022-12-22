@@ -4,6 +4,7 @@ import Content from './components/content/Content';
 import Counter from './components/counter/Counter';
 import List from './components/list/List';
 import Menu from './components/menu/Menu';
+import Theme from './components/theme/Theme';
 
 function App() {
   const myStyle = {
@@ -40,6 +41,10 @@ function App() {
       <hr />
 
       <List />
+
+      <hr />
+
+      <Theme />
     </>
 
   );

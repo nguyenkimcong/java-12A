@@ -37,6 +37,7 @@ function List() {
             <button onClick={handleAdd}>Add</button>
 
             <button onClick={handleRemove}>Remove</button>
+            
             {isShow && (
                 <ul>
                     {items.map((item, index) => (
