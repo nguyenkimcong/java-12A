@@ -2,10 +2,17 @@ package com.example.basic;
 
 import com.example.basic.entity.User;
 import com.example.basic.repository.UserRepository;
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +21,46 @@ class JpaBasicApplicationTests {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private Faker faker;
+
+    @Test
+    void save_random_user() {
+        for (int i = 0; i < 30; i++) {
+            User user = User.builder()
+                    .name(faker.name().fullName())
+                    .email(faker.internet().emailAddress())
+                    .age(faker.number().numberBetween(15, 40))
+                    .build();
+
+            userRepository.save(user);
+        }
+    }
+
+    @Test
+    void sort_user_test() {
+        List<User> users = userRepository.findAll(Sort.by("age").descending());
+        users.forEach(System.out::println);
+    }
+
+    @Test
+    void pagination_user_test() {
+        Page<User> page = userRepository.findAll(PageRequest.of(0, 10, Sort.by("age").descending()));
+        page.getContent().forEach(System.out::println);
+    }
+
+    @Test
+    @Transactional(rollbackFor = {ArrayIndexOutOfBoundsException.class})
+    void transaction_test() {
+        userRepository.deleteById(3);
+
+        try {
+            throw new ArithmeticException("Có lỗi xảy ra");
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
     @Test
     void save_user() {

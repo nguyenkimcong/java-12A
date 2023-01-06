@@ -1,8 +1,26 @@
 package com.example.basic.entity;
 
+import com.example.basic.dto.UserDto;
 import jakarta.persistence.*;
 import lombok.*;
 
+@SqlResultSetMappings(value = {
+        @SqlResultSetMapping(
+                name = "listUserDto",
+                classes = @ConstructorResult(
+                        targetClass = UserDto.class,
+                        columns = {
+                                @ColumnResult(name = "id", type = Integer.class),
+                                @ColumnResult(name = "name", type = String.class),
+                                @ColumnResult(name = "email", type = String.class)
+                        }
+                )
+        )
+})
+@NamedNativeQuery(
+        name = "findAllUserDto",
+        resultSetMapping = "listUserDto",
+        query = "select id, name, email from user")
 @ToString
 @Builder
 @AllArgsConstructor
