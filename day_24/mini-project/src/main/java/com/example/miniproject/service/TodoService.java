@@ -1,8 +1,12 @@
 package com.example.miniproject.service;
 
+import com.example.miniproject.exception.BadRequestException;
+import com.example.miniproject.exception.NotFoundException;
 import com.example.miniproject.model.Todo;
+import com.example.miniproject.repository.TodoRepository;
 import com.example.miniproject.request.CreateTodoRequest;
 import com.example.miniproject.request.UpdateTodoRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,30 +15,44 @@ import java.util.Optional;
 
 @Service
 public class TodoService {
-    private List<Todo> todos;
 
-    public TodoService() {
-        todos = new ArrayList<>();
-        todos.add(new Todo(1, "Đi chơi", true));
-        todos.add(new Todo(2, "Làm bài tập", false));
-        todos.add(new Todo(3, "Đá bóng", true));
-    }
+    @Autowired
+    private TodoRepository todoRepository;
 
     public List<Todo> getTodos() {
-        return todos;
+        return todoRepository.findAll();
     }
 
     public Todo createTodo(CreateTodoRequest request) {
-        return null;
+        if(request.getTitle().trim().length() == 0) {
+            throw new BadRequestException("Tiêu đề không được để trống");
+        }
+        Todo todo = new Todo();
+        todo.setTitle(request.getTitle());
+
+        return todoRepository.save(todo);
     }
 
     public Todo updateTodo(int id, UpdateTodoRequest request) {
-        return null;
+        if(request.getTitle().trim().length() == 0) {
+            throw new BadRequestException("Tiêu đề không được để trống");
+        }
+
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Không tồn tại todo có id = " + id);
+        });
+
+        todo.setTitle(request.getTitle());
+        todo.setStatus(request.isStatus());
+
+        return todoRepository.save(todo);
     }
 
-    public void deleteTodo(int id) {}
+    public void deleteTodo(int id) {
+        Todo todo = todoRepository.findById(id).orElseThrow(() -> {
+            throw new NotFoundException("Không tồn tại todo có id = " + id);
+        });
 
-    private Optional<Todo> findById(int id) {
-        return todos.stream().filter(todo -> todo.getId() == id).findFirst();
+        todoRepository.delete(todo);
     }
 }
