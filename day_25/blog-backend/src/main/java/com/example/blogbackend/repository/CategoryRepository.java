@@ -1,4 +1,7 @@
 package com.example.blogbackend.repository;
 
-public interface CategoryRepository extends org.springframework.data.jpa.repository.JpaRepository<com.example.blogbackend.entity.Category, java.lang.Integer> {
+import com.example.blogbackend.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category, Integer> {
 }

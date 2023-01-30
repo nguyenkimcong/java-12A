@@ -1,4 +1,7 @@
 package com.example.blogbackend.repository;
 
-public interface UserRepository extends org.springframework.data.jpa.repository.JpaRepository<com.example.blogbackend.entity.User, java.lang.Integer> {
+import com.example.blogbackend.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Integer> {
 }
