@@ -2,9 +2,11 @@ package com.example.blogbackend;
 
 import com.example.blogbackend.entity.Blog;
 import com.example.blogbackend.entity.Category;
+import com.example.blogbackend.entity.Comment;
 import com.example.blogbackend.entity.User;
 import com.example.blogbackend.repository.BlogRepository;
 import com.example.blogbackend.repository.CategoryRepository;
+import com.example.blogbackend.repository.CommentRepository;
 import com.example.blogbackend.repository.UserRepository;
 import com.github.javafaker.Faker;
 import com.github.slugify.Slugify;
@@ -37,6 +39,9 @@ public class InitDataTests {
 
     @Autowired
     private BlogRepository blogRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     @Test
     @Rollback(value = false)
@@ -95,6 +100,31 @@ public class InitDataTests {
                     .build();
 
             blogRepository.save(blog);
+        }
+    }
+
+    @Test
+    @Rollback(value = false)
+    void save_comment() {
+        Random rd = new Random();
+
+        List<User> users = userRepository.findAll();
+        List<Blog> blogs = blogRepository.findAll();
+
+        for (int i = 0; i < 100; i++) {
+            // Random 1 user
+            User rdUser = users.get(rd.nextInt(users.size()));
+
+            // Random 1 blog
+            Blog rdBlog = blogs.get(rd.nextInt(blogs.size()));
+
+            Comment comment = Comment.builder()
+                    .content(faker.lorem().sentence(10))
+                    .blog(rdBlog)
+                    .user(rdUser)
+                    .build();
+
+            commentRepository.save(comment);
         }
     }
 }
