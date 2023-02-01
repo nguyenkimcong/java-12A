@@ -27,7 +27,7 @@ public class BlogService {
 
     @Autowired
     private Slugify slugify;
-    
+
     @Autowired
     private UserRepository userRepository;
 
