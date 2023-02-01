@@ -28,7 +28,7 @@ public class ImageService {
         // TODO : Sau nay user chính là user đang đăng nhập (Hiện tại đang fix)
         Integer userId = 1;
 
-        List<Image> images = imageRepository.findByUser_IdOrderByCreated_atDesc(userId);
+        List<Image> images = imageRepository.findByUser_IdOrderByCreatedAtDesc(userId);
 
         return images.stream()
                 .map(image -> "/api/images/" + image.getId())

@@ -19,13 +19,18 @@ public class Image {
     private Integer id;
 
     @Lob // Large Object
-    @Column(name = "data")
+    @Column(name = "data", columnDefinition = "LONGBLOB")
     private byte[] data;
 
     @Column(name = "created_at")
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
+
+    @PrePersist
+    public void prePersist() {
+        createdAt = LocalDateTime.now();
+    }
 }
