@@ -1,19 +1,68 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { addTodo, deleteTodo, updateTodo } from "../../app/actions/todoActions";
+
+const randomId = () => {
+    return Math.floor(Math.random() * 1000);
+};
 
 function TodoList() {
     const todos = useSelector((state) => state.todos);
     const dispatch = useDispatch();
-    
+
     const [title, setTitle] = useState("");
 
-    const handleAdd = () => {};
+    const handleAdd = () => {
+        if (title === "") {
+            alert("Tiêu đề không được để trống");
+            return;
+        }
+        const newTodo = {
+            id: randomId(),
+            title: title,
+            status: false,
+        };
 
-    const handleToggleStatus = (id) => {};
+        dispatch(addTodo(newTodo));
+        setTitle("");
+    };
 
-    const handleUpdateTitle = (id) => {};
+    const handleToggleStatus = (id) => {
+        const currentTodo = todos.find((todo) => todo.id === id);
+        const updatedTodo = {
+            id,
+            title: currentTodo.title,
+            status: !currentTodo.status,
+        };
+        dispatch(updateTodo(updatedTodo));
+    };
 
-    const handleDelete = (id) => {};
+    const handleUpdateTitle = (id) => {
+        const currentTodo = todos.find((todo) => todo.id === id);
+        const newTitle = window.prompt("Cập nhật tiêu đề", currentTodo.title);
+
+        if(newTitle === null) {
+            return;
+        }
+
+        if (newTitle === "") {
+            alert("Tiêu đề không được để trống");
+            return;
+        }
+
+        const updatedTodo = {
+            id,
+            title: newTitle,
+            status: currentTodo.status,
+        };
+
+        dispatch(updateTodo(updatedTodo));
+    };
+
+    const handleDelete = (id) => {
+        // TODO : Thêm confirm trước khi xóa
+        dispatch(deleteTodo(id));
+    };
 
     return (
         <>
