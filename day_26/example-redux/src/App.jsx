@@ -1,9 +1,13 @@
 import { Link, Route, Routes } from "react-router-dom";
 import Counter from "./components/counter/Counter";
-import TodoList from "./components/todolist/TodoList";
 import NotFound from "./components/not-found/NotFound";
+import TodoList from "./components/todolist/TodoList";
+import { createAction } from "@reduxjs/toolkit";
 
 function App() {
+    const actionCreator = createAction("SOME_ACTION_TYPE");
+
+    console.log(actionCreator.toString());
     return (
         <>
             <ul>

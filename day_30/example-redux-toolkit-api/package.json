@@ -1,5 +1,5 @@
 {
-  "name": "example-redux",
+  "name": "example-redux-toolkit-api",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -13,7 +13,6 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.5",
-    "react-router-dom": "^6.8.0",
     "redux": "^4.2.1"
   },
   "devDependencies": {

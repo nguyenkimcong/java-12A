@@ -1,5 +1,5 @@
 {
-  "name": "example-redux",
+  "name": "example-redux-toolkit",
   "private": true,
   "version": "0.0.0",
   "type": "module",
