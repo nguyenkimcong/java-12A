@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addTodo, deleteTodo, fetchTodos, updateTodo } from "../../app/slices/todos.slice";
+import {
+    addTodo,
+    deleteTodo,
+    fetchTodos,
+    updateTodo,
+} from "../../app/slices/todos.slice";
 
 function TodoList() {
     const todos = useSelector((state) => state.todos);
@@ -11,7 +16,7 @@ function TodoList() {
     // Lấy ds todo ban đầu
     useEffect(() => {
         dispatch(fetchTodos());
-    }, [])
+    }, []);
 
     // 1. Thêm todo
     const handleAdd = () => {
@@ -39,7 +44,7 @@ function TodoList() {
         const currentTodo = todos.find((todo) => todo.id === id);
         const newTitle = window.prompt("Cập nhật tiêu đề", currentTodo.title);
 
-        if(newTitle === null) {
+        if (newTitle === null) {
             return;
         }
 

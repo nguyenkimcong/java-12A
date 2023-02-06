@@ -27,7 +27,7 @@ export const addTodo = createAsyncThunk(
 export const updateTodo = createAsyncThunk(
     'todos/updateTodo',
     async (updatedTodo) => {
-        const {id, ...data} = updatedTodo
+        const { id, ...data } = updatedTodo
         const response = await axios.put(`${API_URL}/${id}`, data);
         return response.data
     }
