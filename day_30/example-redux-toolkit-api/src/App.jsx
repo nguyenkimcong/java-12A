@@ -1,9 +1,9 @@
-import TodoList from "./components/todolist/TodoList";
+import UserList from "./components/user/UserList";
 
 function App() {
     return (
         <>
-            <TodoList />
+            <UserList />
         </>
     );
 }

@@ -61,7 +61,7 @@ const todosSlice = createSlice({
             state[index] = action.payload; // Gán lại giá trị của phần tử tại vị trí index
         })
         builder.addCase(deleteTodo.fulfilled, (state, action) => {
-            const { id } = action.payload; // Lấy ra id trong object action.payload
+            const id = action.payload; // Lấy ra id trong object action.payload
             const index = state.findIndex(todo => todo.id === id); // Tìm index của todo cần xóa trong state
             state.splice(index, 1); // Xóa trong state
         })
