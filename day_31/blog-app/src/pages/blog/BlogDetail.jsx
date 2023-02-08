@@ -1,6 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGetBlogByIdQuery } from "../../app/services/blogs.service";
 
 function BlogDetail() {
+    const { blogId } = useParams();
+    // const { data: blog, isLoading, isSuccess } = useGetBlogByIdQuery(blogId);
+
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState(false);
+    const [categoryIds, setCategoryIds] = useState([]);
+    const [thumbnail, setThumbnail] = useState("");
+
+    if (isLoading) {
+        return <h2>Loading ...</h2>;
+    }
+
     return (
         <div className="container-fluid">
             <div className="row py-2">

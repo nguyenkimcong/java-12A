@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import Select from "react-select";
 import SimpleMdeReact from "react-simplemde-editor";
+import { useCreateBlogMutation } from "../../app/services/blogs.service";
 import { useGetCategoriesQuery } from "../../app/services/categories.service";
+import { useNavigate } from "react-router-dom";
 
 function BlogCreate() {
     const { data: categories, isLoading } = useGetCategoriesQuery();
@@ -10,6 +12,37 @@ function BlogCreate() {
     const [description, setDescription] = useState("");
     const [status, setStatus] = useState(false);
     const [categoryIds, setCategoryIds] = useState([]);
+
+    const [createBlog] = useCreateBlogMutation();
+    const navigate = useNavigate();
+
+    const handleChangeCategory = (data) => {
+        const ids = data.map((e) => e.value);
+        setCategoryIds(ids);
+    };
+
+    const handleAddBlog = () => {
+        const newBlog = {
+            title,
+            content,
+            description,
+            status,
+            categoryIds,
+        };
+
+        createBlog(newBlog)
+            .unwrap()
+            .then(() => {
+                alert("Tạo blog thành công");
+
+                setTimeout(() => {
+                    navigate("/admin/blogs");
+                }, 1000);
+            })
+            .catch((err) => {
+                alert(err);
+            });
+    };
 
     const options =
         categories &&
@@ -31,7 +64,11 @@ function BlogCreate() {
                     <button type="button" className="btn btn-default">
                         <i className="fas fa-chevron-left"></i> Quay lại
                     </button>
-                    <button type="button" className="btn btn-info px-4">
+                    <button
+                        type="button"
+                        className="btn btn-info px-4"
+                        onClick={handleAddBlog}
+                    >
                         Lưu
                     </button>
                 </div>
@@ -49,12 +86,21 @@ function BlogCreate() {
                                             type="text"
                                             className="form-control"
                                             id="title"
+                                            value={title}
+                                            onChange={(e) =>
+                                                setTitle(e.target.value)
+                                            }
                                         />
                                     </div>
 
                                     <div className="form-group">
                                         <label>Nội dung</label>
-                                        <SimpleMdeReact />
+                                        <SimpleMdeReact
+                                            value={content}
+                                            onChange={(value) =>
+                                                setContent(value)
+                                            }
+                                        />
                                     </div>
 
                                     <div className="form-group">
@@ -63,6 +109,10 @@ function BlogCreate() {
                                             id="description"
                                             className="form-control"
                                             rows="3"
+                                            value={description}
+                                            onChange={(e) =>
+                                                setDescription(e.target.value)
+                                            }
                                         ></textarea>
                                     </div>
                                 </div>
@@ -73,6 +123,14 @@ function BlogCreate() {
                                         <select
                                             id="status"
                                             className="form-control"
+                                            value={status ? "1" : "0"}
+                                            onChange={(e) =>
+                                                setStatus(
+                                                    e.target.value === "0"
+                                                        ? false
+                                                        : true
+                                                )
+                                            }
                                         >
                                             <option value="0">Nháp</option>
                                             <option value="1">Công khai</option>
@@ -81,7 +139,11 @@ function BlogCreate() {
                                     <div className="form-group">
                                         <label>Danh mục</label>
                                         <div className="select2-purple">
-                                            <Select options={options} isMulti />
+                                            <Select
+                                                options={options}
+                                                isMulti
+                                                onChange={handleChangeCategory}
+                                            />
                                         </div>
                                     </div>
                                 </div>
