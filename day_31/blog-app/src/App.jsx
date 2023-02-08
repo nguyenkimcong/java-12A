@@ -12,15 +12,9 @@ function App() {
             <Route path="/admin" element={<Layout />}>
                 <Route path="blogs">
                     <Route index element={<BlogList />} />
-                    <Route path="own-blog" element={<OwnBlog />} />
-                    <Route
-                        path="create"
-                        element={<BlogCreate />}
-                    />
-                    <Route
-                        path=":blogId"
-                        element={<BlogDetail />}
-                    />
+                    <Route path=":blogId" element={<BlogDetail />} />
+                    <Route path="own-blogs" element={<OwnBlog />} />
+                    <Route path="create" element={<BlogCreate />} />
                 </Route>
             </Route>
         </Routes>
