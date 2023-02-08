@@ -1,7 +1,15 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { useGetBlogsQuery } from "../../app/services/blogs.service";
+import { formatDate } from "../../utils/functionUtils";
 
 function BlogList() {
-    
+    const { data, isLoading } = useGetBlogsQuery();
+
+    if (isLoading) {
+        return <h2>Loading ...</h2>;
+    }
+
     return (
         <div className="container-fluid">
             <div className="row py-2">
@@ -29,38 +37,22 @@ function BlogList() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>
-                                            <a href="./blog-detail.html">
-                                                Khai giảng khóa Java Spring Boot
-                                                12A - song song 2 hình thức
-                                                offline / online đáp ứng nhu cầu
-                                                đào tạo từ xa
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#">John Doe</a>
-                                        </td>
-                                        <td>Java, Golang, Springboot</td>
-                                        <td>Công khai</td>
-                                        <td>06-07-2022</td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <a href="./blog-detail.html">
-                                                Khai giảng khóa Java Spring Boot
-                                                12A - song song 2 hình thức
-                                                offline / online đáp ứng nhu cầu
-                                                đào tạo từ xa
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="#">John Doe</a>
-                                        </td>
-                                        <td>Java, Golang, Springboot</td>
-                                        <td>Công khai</td>
-                                        <td>06-07-2022</td>
-                                    </tr>
+                                    {data.length > 0 &&
+                                        data.map((b) => (
+                                            <tr key={b.id}>
+                                                <td>
+                                                    <Link to={`/admin/blogs/${b.id}`}>{b.title}</Link>
+                                                </td>
+                                                <td>
+                                                    <Link to={`/admin/users/${b.user.id}`}>{b.user.name}</Link>
+                                                </td>
+                                                <td>
+                                                    {b.categories.map(c => c.name).join(", ")}
+                                                </td>
+                                                <td>{b.status ? "Công khai" : "Nháp"}</td>
+                                                <td>{formatDate(b.createdAt)}</td>
+                                            </tr>
+                                        ))}
                                 </tbody>
                             </table>
 
@@ -77,7 +69,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="0"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             Previous
@@ -88,7 +80,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="1"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             1
@@ -99,7 +91,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="2"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             2
@@ -110,7 +102,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="3"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             3
@@ -121,7 +113,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="4"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             4
@@ -132,7 +124,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="5"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             5
@@ -143,7 +135,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="6"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             6
@@ -157,7 +149,7 @@ function BlogList() {
                                             href="#"
                                             aria-controls="example2"
                                             data-dt-idx="7"
-                                            tabindex="0"
+                                            tabIndex="0"
                                             className="page-link"
                                         >
                                             Next

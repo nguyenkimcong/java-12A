@@ -1,6 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
+import Select from "react-select";
+import SimpleMdeReact from "react-simplemde-editor";
+import { useGetCategoriesQuery } from "../../app/services/categories.service";
 
 function BlogCreate() {
+    const { data: categories, isLoading } = useGetCategoriesQuery();
+    const [title, setTitle] = useState("");
+    const [content, setContent] = useState("");
+    const [description, setDescription] = useState("");
+    const [status, setStatus] = useState(false);
+    const [categoryIds, setCategoryIds] = useState([]);
+
+    const options =
+        categories &&
+        categories.map((c) => {
+            return {
+                value: c.id,
+                label: c.name,
+            };
+        });
+
+    if (isLoading) {
+        return <h2>Loading ...</h2>;
+    }
+
     return (
         <div className="container-fluid">
             <div className="row py-2">
@@ -10,15 +33,6 @@ function BlogCreate() {
                     </button>
                     <button type="button" className="btn btn-info px-4">
                         Lưu
-                    </button>
-                    <button type="button" className="btn btn-primary px-4">
-                        Preview
-                    </button>
-                </div>
-
-                <div className="col-6 d-flex justify-content-end">
-                    <button type="button" className="btn btn-danger px-4">
-                        Xóa
                     </button>
                 </div>
             </div>
@@ -40,7 +54,7 @@ function BlogCreate() {
 
                                     <div className="form-group">
                                         <label>Nội dung</label>
-                                        <textarea id="content"></textarea>
+                                        <SimpleMdeReact />
                                     </div>
 
                                     <div className="form-group">
@@ -67,33 +81,8 @@ function BlogCreate() {
                                     <div className="form-group">
                                         <label>Danh mục</label>
                                         <div className="select2-purple">
-                                            <select
-                                                className="select2 form-control"
-                                                multiple="multiple"
-                                                id="category"
-                                            >
-                                                <option>Java</option>
-                                                <option>Golang</option>
-                                                <option>React</option>
-                                                <option>Lập trình web</option>
-                                                <option>Database</option>
-                                                <option>Tips Trick</option>
-                                                <option>Devops</option>
-                                            </select>
+                                            <Select options={options} isMulti />
                                         </div>
-                                    </div>
-                                    <div className="form-group">
-                                        <div className="thumbnail-preview-container mb-3">
-                                            <img src="" alt="" id="thumbnail" />
-                                        </div>
-                                        <button
-                                            type="button"
-                                            className="btn btn-info btn-flat"
-                                            data-toggle="modal"
-                                            data-target="#modal-xl"
-                                        >
-                                            Chọn hình ảnh
-                                        </button>
                                     </div>
                                 </div>
                             </div>
