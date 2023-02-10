@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetBlogByIdQuery } from "../../app/services/blogs.service";
 
 function BlogDetail() {
     const { blogId } = useParams();
-    // const { data: blog, isLoading, isSuccess } = useGetBlogByIdQuery(blogId);
+    const { data: blog, isLoading } = useGetBlogByIdQuery(blogId);
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -12,6 +12,17 @@ function BlogDetail() {
     const [status, setStatus] = useState(false);
     const [categoryIds, setCategoryIds] = useState([]);
     const [thumbnail, setThumbnail] = useState("");
+
+    useEffect(() => {
+        if (!blog) return;
+
+        setTitle(blog.title);
+        setContent(blog.content);
+        setDescription(blog.description);
+        setStatus(blog.status);
+        setCategoryIds(blog.categories.map((b) => b.id));
+        setThumbnail(blog.thumbnail);
+    }, [blog]);
 
     if (isLoading) {
         return <h2>Loading ...</h2>;

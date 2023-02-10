@@ -1,13 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit";
+import { blogApi } from "../services/blogs.service";
 
 const initialState = [];
 
 const blogsSlice = createSlice({
-  name: 'blogs',
+  name: "blogs",
   initialState,
-  reducers: {}
+  reducers: {},
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      blogApi.endpoints.getBlogs.matchFulfilled,
+      (state, action) => {
+        state = action.payload;
+        return state;
+      }
+    );
+  },
 });
 
-export const {} = blogsSlice.actions
+export const { } = blogsSlice.actions;
 
-export default blogsSlice.reducer
+export default blogsSlice.reducer;

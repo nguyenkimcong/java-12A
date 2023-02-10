@@ -1,6 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { useGetBlogsQuery } from "../../app/services/blogs.service";
+import {
+    useGetBlogByIdQuery,
+    useGetBlogsQuery,
+} from "../../app/services/blogs.service";
 import { formatDate } from "../../utils/functionUtils";
 
 function BlogList() {
@@ -41,16 +44,32 @@ function BlogList() {
                                         data.map((b) => (
                                             <tr key={b.id}>
                                                 <td>
-                                                    <Link to={`/admin/blogs/${b.id}`}>{b.title}</Link>
+                                                    <Link
+                                                        to={`/admin/blogs/${b.id}`}
+                                                    >
+                                                        {b.title}
+                                                    </Link>
                                                 </td>
                                                 <td>
-                                                    <Link to={`/admin/users/${b.user.id}`}>{b.user.name}</Link>
+                                                    <Link
+                                                        to={`/admin/users/${b.user.id}`}
+                                                    >
+                                                        {b.user.name}
+                                                    </Link>
                                                 </td>
                                                 <td>
-                                                    {b.categories.map(c => c.name).join(", ")}
+                                                    {b.categories
+                                                        .map((c) => c.name)
+                                                        .join(", ")}
                                                 </td>
-                                                <td>{b.status ? "Công khai" : "Nháp"}</td>
-                                                <td>{formatDate(b.createdAt)}</td>
+                                                <td>
+                                                    {b.status
+                                                        ? "Công khai"
+                                                        : "Nháp"}
+                                                </td>
+                                                <td>
+                                                    {formatDate(b.createdAt)}
+                                                </td>
                                             </tr>
                                         ))}
                                 </tbody>
