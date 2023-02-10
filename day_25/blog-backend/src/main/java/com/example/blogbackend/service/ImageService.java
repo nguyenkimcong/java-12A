@@ -7,6 +7,7 @@ import com.example.blogbackend.exception.BadRequestException;
 import com.example.blogbackend.exception.NotFoundException;
 import com.example.blogbackend.repository.ImageRepository;
 import com.example.blogbackend.repository.UserRepository;
+import com.example.blogbackend.response.ImageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -43,7 +44,7 @@ public class ImageService {
         return image.getData();
     }
 
-    public String uploadImage(MultipartFile file) {
+    public ImageResponse uploadImage(MultipartFile file) {
         // TODO : Sau nay user chính là user đang đăng nhập (Hiện tại đang fix)
         Integer userId = 1;
         User user = userRepository.findById(userId).orElseThrow(() -> {
@@ -61,7 +62,8 @@ public class ImageService {
 
             imageRepository.save(image);
 
-            return "/api/images/" + image.getId();
+            String url = "/api/images/" + image.getId();
+            return new ImageResponse(url);
         } catch (Exception e) {
             throw new RuntimeException("Upload image error");
         }

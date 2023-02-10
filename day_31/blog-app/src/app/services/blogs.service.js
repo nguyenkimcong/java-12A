@@ -22,11 +22,14 @@ export const blogApi = createApi({
             }),
         }),
         updateBlog: builder.mutation({
-            query: (id, data) => ({
-                url: `blogs/${id}`,
-                method: "PUT",
-                body: data,
-            }),
+            query: ({ id, ...data }) => {
+                console.log({ id, data });
+                return {
+                    url: `blogs/${id}`,
+                    method: "PUT",
+                    body: data,
+                }
+            },
         }),
         deleteBlog: builder.mutation({
             query: (id) => ({

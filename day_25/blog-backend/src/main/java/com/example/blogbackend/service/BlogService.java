@@ -83,6 +83,7 @@ public class BlogService {
         blog.setDescription(request.getDescription());
         blog.setContent(request.getContent());
         blog.setStatus(request.getStatus());
+        blog.setThumbnail(request.getThumbnail());
         blog.setCategories(categories);
 
         return blogRepository.save(blog);

@@ -3,6 +3,7 @@ package com.example.blogbackend.controller;
 import com.example.blogbackend.entity.Blog;
 import com.example.blogbackend.request.UpsertBlogRequest;
 import com.example.blogbackend.service.BlogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/admin/blogs")
+@Slf4j
 public class BlogController {
 
     @Autowired
@@ -36,6 +38,8 @@ public class BlogController {
     //    Cập nhật thông tin blog
     @PutMapping("{id}")
     public ResponseEntity<?> updateBlog(@PathVariable Integer id, @RequestBody UpsertBlogRequest request) {
+        log.info("id : {}", id);
+        log.info("request : {}", request);
         return ResponseEntity.ok(blogService.updateBlog(id, request)); // 200
     }
 

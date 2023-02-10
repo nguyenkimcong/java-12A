@@ -2,13 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Select from "react-select";
 import SimpleMdeReact from "react-simplemde-editor";
-import { useGetBlogByIdQuery } from "../../app/services/blogs.service";
+import {
+    useDeleteBlogMutation,
+    useGetBlogByIdQuery,
+    useUpdateBlogMutation,
+} from "../../app/services/blogs.service";
 import { useGetCategoriesQuery } from "../../app/services/categories.service";
+import { useUploadImageMutation } from "../../app/services/images.service";
 
 function BlogDetail() {
     const { blogId } = useParams();
     const { data: blog, isLoading } = useGetBlogByIdQuery(blogId);
     const { data: categories } = useGetCategoriesQuery();
+    const [uploadImage] = useUploadImageMutation();
+    const [updateBlog] = useUpdateBlogMutation();
+    const [deleteBlog] = useDeleteBlogMutation();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -28,7 +36,6 @@ function BlogDetail() {
 
     const optionsSelected =
         options && options.filter((o) => categoryIds.includes(o.value));
-    console.log({ optionsSelected });
 
     useEffect(() => {
         if (!blog) return;
@@ -46,6 +53,45 @@ function BlogDetail() {
         setCategoryIds(ids);
     };
 
+    const handleUploadThumbnail = (e) => {
+        // Lấy ra file vừa được chọn
+        const file = e.target.files[0];
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        uploadImage(formData) // Trả về URL /api/images/1
+            .unwrap()
+            .then((res) => {
+                setThumbnail(res.url);
+                alert("Upload image thành công");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
+    const handleUpdateBlog = () => {
+        const updatedBlog = {
+            id: blogId,
+            title,
+            content,
+            description,
+            status,
+            categoryIds,
+            thumbnail,
+        };
+
+        updateBlog(updatedBlog)
+            .unwrap()
+            .then(() => {
+                alert("Cập nhật blog thành công");
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
+
     if (isLoading) {
         return <h2>Loading ...</h2>;
     }
@@ -57,7 +103,11 @@ function BlogDetail() {
                     <button type="button" className="btn btn-default">
                         <i className="fas fa-chevron-left"></i> Quay lại
                     </button>
-                    <button type="button" className="btn btn-info px-4">
+                    <button
+                        type="button"
+                        className="btn btn-info px-4"
+                        onClick={handleUpdateBlog}
+                    >
                         Lưu
                     </button>
                     <button type="button" className="btn btn-primary px-4">
@@ -147,16 +197,26 @@ function BlogDetail() {
                                     </div>
                                     <div className="form-group">
                                         <div className="thumbnail-preview-container mb-3">
-                                            <img src="" alt="" id="thumbnail" />
+                                            <img
+                                                src={`http://localhost:8080${thumbnail}`}
+                                                alt=""
+                                                id="thumbnail"
+                                            />
                                         </div>
-                                        <button
-                                            type="button"
+                                        <label
                                             className="btn btn-info btn-flat"
-                                            data-toggle="modal"
-                                            data-target="#modal-xl"
+                                            htmlFor="input-file"
                                         >
                                             Chọn hình ảnh
-                                        </button>
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id="input-file"
+                                            className="d-none"
+                                            onChange={(e) =>
+                                                handleUploadThumbnail(e)
+                                            }
+                                        />
                                     </div>
                                 </div>
                             </div>
