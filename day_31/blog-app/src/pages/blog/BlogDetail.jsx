@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import Select from "react-select";
+import SimpleMdeReact from "react-simplemde-editor";
 import { useGetBlogByIdQuery } from "../../app/services/blogs.service";
+import { useGetCategoriesQuery } from "../../app/services/categories.service";
 
 function BlogDetail() {
     const { blogId } = useParams();
     const { data: blog, isLoading } = useGetBlogByIdQuery(blogId);
+    const { data: categories } = useGetCategoriesQuery();
 
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
@@ -12,6 +16,19 @@ function BlogDetail() {
     const [status, setStatus] = useState(false);
     const [categoryIds, setCategoryIds] = useState([]);
     const [thumbnail, setThumbnail] = useState("");
+
+    const options =
+        categories &&
+        categories.map((c) => {
+            return {
+                value: c.id,
+                label: c.name,
+            };
+        });
+
+    const optionsSelected =
+        options && options.filter((o) => categoryIds.includes(o.value));
+    console.log({ optionsSelected });
 
     useEffect(() => {
         if (!blog) return;
@@ -23,6 +40,11 @@ function BlogDetail() {
         setCategoryIds(blog.categories.map((b) => b.id));
         setThumbnail(blog.thumbnail);
     }, [blog]);
+
+    const handleChangeCategory = (data) => {
+        const ids = data.map((e) => e.value);
+        setCategoryIds(ids);
+    };
 
     if (isLoading) {
         return <h2>Loading ...</h2>;
@@ -62,12 +84,21 @@ function BlogDetail() {
                                             type="text"
                                             className="form-control"
                                             id="title"
+                                            value={title}
+                                            onChange={(e) =>
+                                                setTitle(e.target.value)
+                                            }
                                         />
                                     </div>
 
                                     <div className="form-group">
                                         <label>Nội dung</label>
-                                        <textarea id="content"></textarea>
+                                        <SimpleMdeReact
+                                            value={content}
+                                            onChange={(value) =>
+                                                setContent(value)
+                                            }
+                                        />
                                     </div>
 
                                     <div className="form-group">
@@ -76,6 +107,10 @@ function BlogDetail() {
                                             id="description"
                                             className="form-control"
                                             rows="3"
+                                            value={description}
+                                            onChange={(e) =>
+                                                setDescription(e.target.value)
+                                            }
                                         ></textarea>
                                     </div>
                                 </div>
@@ -86,6 +121,14 @@ function BlogDetail() {
                                         <select
                                             id="status"
                                             className="form-control"
+                                            value={status ? "1" : "0"}
+                                            onChange={(e) =>
+                                                setStatus(
+                                                    e.target.value === "0"
+                                                        ? false
+                                                        : true
+                                                )
+                                            }
                                         >
                                             <option value="0">Nháp</option>
                                             <option value="1">Công khai</option>
@@ -94,19 +137,12 @@ function BlogDetail() {
                                     <div className="form-group">
                                         <label>Danh mục</label>
                                         <div className="select2-purple">
-                                            <select
-                                                className="select2 form-control"
-                                                multiple="multiple"
-                                                id="category"
-                                            >
-                                                <option>Java</option>
-                                                <option>Golang</option>
-                                                <option>React</option>
-                                                <option>Lập trình web</option>
-                                                <option>Database</option>
-                                                <option>Tips Trick</option>
-                                                <option>Devops</option>
-                                            </select>
+                                            <Select
+                                                options={options}
+                                                value={optionsSelected}
+                                                isMulti
+                                                onChange={handleChangeCategory}
+                                            />
                                         </div>
                                     </div>
                                     <div className="form-group">
