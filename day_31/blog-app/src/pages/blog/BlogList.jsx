@@ -1,9 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import {
-    useGetBlogByIdQuery,
-    useGetBlogsQuery,
-} from "../../app/services/blogs.service";
+import { useGetBlogsQuery } from "../../app/services/blogs.service";
 import { formatDate } from "../../utils/functionUtils";
 
 function BlogList() {

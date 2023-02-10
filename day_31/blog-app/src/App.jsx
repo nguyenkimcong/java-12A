@@ -5,6 +5,7 @@ import BlogCreate from "./pages/blog/BlogCreate";
 import BlogDetail from "./pages/blog/BlogDetail";
 import BlogList from "./pages/blog/BlogList";
 import OwnBlog from "./pages/blog/OwnBlog";
+import CategoryList from "./pages/category/CategoryList";
 
 function App() {
     return (
@@ -15,6 +16,9 @@ function App() {
                     <Route path=":blogId" element={<BlogDetail />} />
                     <Route path="own-blogs" element={<OwnBlog />} />
                     <Route path="create" element={<BlogCreate />} />
+                </Route>
+                <Route path="categories">
+                    <Route index element={<CategoryList />} />
                 </Route>
             </Route>
         </Routes>
