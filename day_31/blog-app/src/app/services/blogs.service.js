@@ -4,9 +4,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 export const blogApi = createApi({
     reducerPath: "blogApi",
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:8080/api/admin" }),
+    tagTypes: ['Post'],
     endpoints: (builder) => ({
         getBlogs: builder.query({
             query: () => "blogs",
+            providesTags: ['Post'],
         }),
         getBlogById: builder.query({
             query: (id) => `blogs/${id}`,
@@ -20,6 +22,7 @@ export const blogApi = createApi({
                 method: "POST",
                 body: data,
             }),
+            invalidatesTags: ['Post'],
         }),
         updateBlog: builder.mutation({
             query: ({ id, ...data }) => {
@@ -30,12 +33,14 @@ export const blogApi = createApi({
                     body: data,
                 }
             },
+            invalidatesTags: ['Post'],
         }),
         deleteBlog: builder.mutation({
             query: (id) => ({
                 url: `blogs/${id}`,
                 method: "DELETE",
             }),
+            invalidatesTags: ['Post'],
         }),
     }),
 });
