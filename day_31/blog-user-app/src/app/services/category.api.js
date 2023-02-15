@@ -1,19 +1,25 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-const END_POINT = "http://localhost:8080/api"
+const END_POINT = "http://localhost:8080/api";
 
 export const categoryApi = createApi({
-    reducerPath: 'categoryApi',
+    reducerPath: "categoryApi",
     baseQuery: fetchBaseQuery({ baseUrl: END_POINT }),
     endpoints: (builder) => ({
         getCategoies: builder.query({
             query: () => `categories`,
         }),
+        getTop5Categories: builder.query({
+            query: () => `categories/top5`,
+        }),
         getBlogsOfCategory: builder.query({
             query: (name) => `categories/${name}`,
         }),
     }),
-})
+});
 
-export const { useGetCategoiesQuery, useGetBlogsOfCategoryQuery }
-    = categoryApi;
+export const {
+    useGetCategoiesQuery,
+    useGetBlogsOfCategoryQuery,
+    useGetTop5CategoriesQuery,
+} = categoryApi;
