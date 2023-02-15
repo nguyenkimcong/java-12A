@@ -41,4 +41,12 @@ public class WebService {
            throw new NotFoundException(String.format("Not found blog with id = %d and slug = %s", blogId, blogSlug));
         });
     }
+
+    public List<CategoryDto> getTop5Category() {
+        List<CategoryDto> categoryDtos = categoryRepository.findCategoriesUsedOther();
+        return categoryDtos.stream()
+                .sorted((c1, c2) -> Math.toIntExact(c2.getUsed() - c1.getUsed()))
+                .limit(5)
+                .toList();
+    }
 }

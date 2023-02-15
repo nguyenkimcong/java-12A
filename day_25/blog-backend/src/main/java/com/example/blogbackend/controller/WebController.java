@@ -27,6 +27,11 @@ public class WebController {
         return ResponseEntity.ok(webService.getAllCategory());
     }
 
+    @GetMapping("categories/top5")
+    public ResponseEntity<?> getTop5Category() {
+        return ResponseEntity.ok(webService.getTop5Category());
+    }
+
     @GetMapping("categories/{categoryName}")
     public ResponseEntity<?> getBlogsOfCategory(@PathVariable String categoryName) {
         return ResponseEntity.ok(webService.getBlogsOfCategory(categoryName));
