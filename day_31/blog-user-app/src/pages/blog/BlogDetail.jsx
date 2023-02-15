@@ -3,6 +3,7 @@ import { Helmet } from "react-helmet";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { useParams } from "react-router-dom";
 import { useGetBlogDetailQuery } from "../../app/services/blog.api";
+import ScrollButton from "../../components/scroll-button/ScrollButton";
 import { formatDate } from "../../utils/functionUtils";
 
 function BlogDetail() {
@@ -34,6 +35,8 @@ function BlogDetail() {
                     </div>
                 </article>
             </main>
+
+            <ScrollButton />
         </>
     );
 }
