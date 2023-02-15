@@ -22,5 +22,5 @@ export const {
     useGetBlogsQuery,
     useSearchBlogQuery,
     useGetBlogDetailQuery,
-    useLazySearchBlogQuery,
+    useLazySearchBlogQuery
 } = blogApi;

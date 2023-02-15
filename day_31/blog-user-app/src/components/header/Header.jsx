@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 function Header() {
     return (
@@ -10,10 +10,10 @@ function Header() {
                 </div>
                 <ul id="menu">
                     <li>
-                        <Link to={"/search"}>Search</Link>
+                        <NavLink to={"/search"}>Search</NavLink>
                     </li>
                     <li>
-                        <Link to={"/tags"}>Tags</Link>
+                        <NavLink to={"/tags"}>Tags</NavLink>
                     </li>
                 </ul>
             </nav>
