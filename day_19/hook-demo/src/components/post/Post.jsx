@@ -74,8 +74,8 @@ function Post() {
     }
 
     return (
-        <>
-            {console.log("render")}
+        <div style={{ margin: 20 }}>
+            {/* {console.log("render")}
 
             <h1>Count : {count}</h1>
             <button onClick={increment}>Increment</button>
@@ -85,7 +85,7 @@ function Post() {
             <button onClick={increment1}>Increment1</button>
             <button onClick={decrement1}>Decrement1</button>
 
-            <hr />
+            <hr /> */}
 
             <h2>Type : {type}</h2>
 
@@ -108,11 +108,19 @@ function Post() {
                 albums
             </button> */}
 
-            {["posts", "comments", "albums"].map((ele, index) => (
+            {["posts", "photos", "albums"].map((ele, index) => (
                 <button
                     key={index}
                     onClick={() => setType(ele)}
-                    style={type === ele ? { backgroundColor: "red" } : {}}
+                    style={
+                        type === ele
+                            ? {
+                                  backgroundColor: "red",
+
+                                  color: "white",
+                              }
+                            : {}
+                    }
                 >
                     {ele}
                 </button>
@@ -120,10 +128,10 @@ function Post() {
 
             <ul>
                 {posts.map((p) => (
-                    <li key={p.id}>{p.title || p.body}</li>
+                    <li key={p.id}>{p.title}</li>
                 ))}
             </ul>
-        </>
+        </div>
     );
 }
 

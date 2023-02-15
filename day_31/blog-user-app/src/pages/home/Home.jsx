@@ -60,7 +60,6 @@ function Home() {
                             <span title="2023-02-01 00:00:00 +0000 UTC">
                                 01/02/2023
                             </span>
-                            &nbsp;·&nbsp;5 phút
                         </footer>
                     </Link>
                 </article>

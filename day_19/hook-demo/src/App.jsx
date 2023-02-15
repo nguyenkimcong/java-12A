@@ -1,5 +1,5 @@
 import React from "react";
-import TodoList from "./components/todoList/TodoList";
+import Post from "./components/post/Post";
 
 function App() {
     // const [isShow, setIsShow] = useState(true);
@@ -10,7 +10,7 @@ function App() {
 
     return (
         <>
-            <TodoList />
+            <Post />
         </>
     );
 }

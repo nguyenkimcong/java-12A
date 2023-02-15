@@ -10,14 +10,10 @@ function Header() {
                 </div>
                 <ul id="menu">
                     <li>
-                        <Link to={"/search"}>
-                            <span>Search</span>
-                        </Link>
+                        <Link to={"/search"}>Search</Link>
                     </li>
                     <li>
-                        <Link to={"/tags"}>
-                            <span>Tags</span>
-                        </Link>
+                        <Link to={"/tags"}>Tags</Link>
                     </li>
                 </ul>
             </nav>

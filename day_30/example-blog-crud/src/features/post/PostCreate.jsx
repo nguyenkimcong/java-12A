@@ -1,9 +1,15 @@
-import React from 'react'
+import React from "react";
+import Error from "../../components/error/Error";
 
 function PostCreate() {
-  return (
-    <div>PostCreate</div>
-  )
+    const error = {
+        data: "Khong ket noi duoc voi DB",
+    };
+    return (
+        <>
+            <Error />
+        </>
+    );
 }
 
-export default PostCreate
+export default PostCreate;

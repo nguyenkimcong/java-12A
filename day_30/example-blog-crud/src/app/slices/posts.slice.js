@@ -8,7 +8,9 @@ const postAdapter = createEntityAdapter({
 const postsSlice = createSlice({
     name: "posts",
     initialState: postAdapter.getInitialState(),
-    reducers: {},
+    reducers: {
+        removePostId: postAdapter.removeOne
+    },
     extraReducers: (builder) => {
         builder.addMatcher(
             postApi.endpoints.getPosts.matchFulfilled,
@@ -17,7 +19,7 @@ const postsSlice = createSlice({
     },
 });
 
-export const { } = postsSlice.actions;
+export const { removePostId } = postsSlice.actions;
 
 export const {
     selectById: selectPostById,
