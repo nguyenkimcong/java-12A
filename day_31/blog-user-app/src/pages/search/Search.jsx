@@ -1,19 +1,32 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
 import { Helmet } from "react-helmet";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
 import { useLazySearchBlogQuery } from "../../app/services/blog.api";
-import { toast } from "react-toastify";
 
 function Search() {
-    const [term, setTerm] = useState("");
+    // const [term, setTerm] = useState("");
     const [blogs, setBlogs] = useState([]);
     const [searchBlog] = useLazySearchBlogQuery();
 
+    const schema = yup
+        .object({
+            term: yup.string().required("Từ khóa không được để trống"),
+        })
+        .required();
+
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        mode: "all",
+        resolver: yupResolver(schema),
+    });
+
     const handleSearch = async (e) => {
         if (e.key === "Enter") {
-            if (term.trim() === "") {
-                toast.error("Từ khóa không được để trống")
-                return;
-            }
             try {
                 let { data } = await searchBlog(term);
                 setBlogs(data);
@@ -34,20 +47,25 @@ function Search() {
                     <div className="post-meta"></div>
                 </header>
                 <div id="searchbox">
-                    <input
-                        id="searchInput"
-                        placeholder="Tìm kiếm bài viết"
-                        autocomplete="off"
-                        value={term}
-                        onChange={(e) => setTerm(e.target.value)}
-                        onKeyDown={(e) => handleSearch(e)}
-                    />
+                    <form onSubmit={handleSubmit()}>
+                        <input
+                            id="searchInput"
+                            placeholder="Tìm kiếm bài viết"
+                            autoComplete="off"
+                            onKeyDown={(e) => handleSearch(e)}
+                            {...register("term")}
+                        />
+                        <span style={{ color: "red" }}>
+                            {errors.term?.message}
+                        </span>
+
+                        <button type="submit">Search</button>
+                    </form>
+
                     <ul id="searchResults">
                         {blogs.map((b) => (
                             <li class="post-entry">
-                                <header class="entry-header">
-                                    {b.title}
-                                </header>
+                                <header class="entry-header">{b.title}</header>
                                 <a
                                     href={`/blogs/${b.id}/${b.slug}`}
                                     aria-label={b.title}

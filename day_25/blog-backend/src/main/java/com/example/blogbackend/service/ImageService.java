@@ -97,7 +97,7 @@ public class ImageService {
     }
 
     private boolean checkFileExtension(String fileExtension) {
-        List<String> extensions = new ArrayList<>(List.of("png", "jpg", "jpeg"));
+        List<String> extensions = new ArrayList<>(List.of("png", "jpg", "jpeg", "pdf"));
         return extensions.contains(fileExtension.toLowerCase());
     }
 
